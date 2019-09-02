@@ -1,0 +1,14 @@
+native import standard.internal.io_d;
+
+native alias IntArray = `int[]`;
+
+native Nothing nswriteln(IntArray a);
+native Nothing nswriteln(String a);
+
+Nothing writeln(IntArray a) {
+    nswriteln(a);
+}
+
+Nothing writeln(String a) {
+    nswriteln(a);
+}

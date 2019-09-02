@@ -1,0 +1,60 @@
+native import standard.internal.arrays_d;
+native import standard.internal.vectors_d;
+
+import standard.assignment;
+
+native alias IntArray = `int[]`;
+native alias IntArrayAssignPrep = `IntArrayAssignPrep`;
+native alias ArraySlicer = `IntVector2`;
+
+native IntArray new_array_d(Int length);
+native IntArrayAssignPrep prepareArrayElementAssignment(IntArray array, Int index);
+native Nothing setArrayElement(IntArrayAssignPrep metaData, Int newValue);
+native Int accessArray(IntArray array, Int index);
+native Nothing appendToArray(IntArray array, Int newValue);
+native IntArray performArraySlice(IntArray array, ArraySlicer sliceData);
+native ArraySlicer create_vector(Int x, Int y);
+
+IntArray new_array(Int length) {
+    new_array_d(length);
+}
+
+Nothing infix_:=_(IntArrayAssignPrep metaData, Int newValue) {
+    setArrayElement(metaData, newValue);
+}
+
+Int bracketop_[]_(IntArray array, Int index) {
+    accessArray(array, index);
+}
+
+IntArray bracketop_[]_(IntArray array, ArraySlicer sliceData) {
+    performArraySlice(array, sliceData);
+}
+
+IntArrayAssignPrep bracketop_[]_(IntArray array, Int index) {
+    prepareArrayElementAssignment(array, index);
+}
+
+IntArray infix_:_(Int elemA, Int elemB) {
+    IntArray returnArray;
+    returnArray := new_array(2);
+
+    returnArray[0] := elemA;
+    returnArray[1] := elemB;
+
+    returnArray;
+}
+
+ArraySlicer infix_:_(Int start, Int end) {
+    create_vector(start, end);
+}
+
+IntArray infix_:_(IntArray array, Int newValue) {
+    //array += newValue;
+    appendToArray(array, newValue);
+    array;
+}
+
+Nothing infix_+=_(IntArray array, Int newValue) {
+    appendToArray(array, newValue);
+}

@@ -1,0 +1,9 @@
+native import standard.internal.standard_d;
+
+native alias IntArray = `int[]`;
+
+native Nothing assign(IntArray* a, IntArray b);
+
+Nothing infix_:=_(IntArray* a, IntArray b) {
+    assign(a, b);
+}

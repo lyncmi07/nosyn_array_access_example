@@ -1,0 +1,37 @@
+import standard.assignment;
+import standard.arrays;
+import standard.io;
+
+native alias IntArray = `int[]`;
+native alias IntArrayAssignPrep = `IntArrayAssignPrep`;
+native alias ArraySlicer = `IntVector2`;
+
+
+
+Int main() {
+    writeln("Testing NoSyn operator overload capability");
+
+    writeln("Creating fixed size array and assigning after");
+    IntArray a;
+    a := new_array(10);
+    a[0] := 10;
+    a[5] := 4;
+    a[2] := 2;
+    a[7] := 5;
+
+    writeln("Current contents");
+    writeln(a);
+
+    writeln("Assigning using ':' shorthand");
+    IntArray b;
+    b := (1:2);
+    b := (5:4:3:2:1);
+    writeln(b);
+
+    writeln("Slicing using ':' operator within array access brackets");
+    IntArray c;
+    c := b[0:3];
+    writeln(c);
+
+    0;
+};
