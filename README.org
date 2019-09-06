@@ -23,8 +23,8 @@ First we should define exactly what language features we would like to create fo
 As this is NoSyn, there are absolutely no operators defined by default, so one of the most important operators to create first is the 
 assignment operator.
 For our purposes we will need a couple of operator overloads for this. The first is to assign array values to array variables:
-#+caption: standard.assignment line 7
 #+BEGIN_SRC c++
+// standard.assignment line 7
 Nothing infix_:=_(IntArray* a, IntArray b)
 #+END_SRC
 
@@ -38,21 +38,21 @@ If a second alias =Foo= were also to point to the D type =int[]=, they would be 
 inspite of their identical underlying structure.
 
 Another overload has been created for the =:== symbol:
-#+caption: standard.arrays line 22
 #+BEGIN_SRC c++
+// standard.arrays line 22
 Nothing infix_:=_(IntArrayAssignPrep metaData, Int newValue)
 #+END_SRC
 
 From first inspection it is not clear what this overload actually does, until shown in an expression context:
-#+caption nosyn line 17
 #+BEGIN_SRC c++
+//nosyn line 17
 a[0] := 10;
 #+END_SRC
 
 This intuitively means to assign the value 10 to the zeroth element of the array =a=.
 It should be noted that in the expression:
-#+caption: nosyn line 25
 #+BEGIN_SRC c++
+// nosyn line 25
 writeln(a[0]);
 #+END_SRC
 
@@ -64,8 +64,8 @@ This shows that the most basic array functionality has been implemented with rel
 however is =:=.
 
 In the NoSyn module containing the main function we have three expressions that use the =:= operator:
-#+caption: nosyn lines 29, 30, 35
 #+BEGIN_SRC c++
+// nosyn lines 29, 30, 35
 b := (1:2)
 b := (5:4:3:2:1)
 c := b[0:3]
@@ -78,8 +78,8 @@ The parentheses on the first two expressions is not just to make things clearer,
 Apart from the definition of variables, all statements in NoSyn are righthand expression statements.
 
 The expression:
-#+caption: nosyn line 29
 #+BEGIN_SRC c++
+// nosyn line 29
 b := (1:2)
 #+END_SRC
 does not actually mean to assign the righthand value =(1:2)= to a lefthand variable =b=.
@@ -107,8 +107,8 @@ This default ordering will cause a missing function overload error as the only r
 a function parameter which it is currently being used for in the infix =:= function.
 
 The brackets change the order in which the operators are grouped:
-#+caption: nosyn line 29
 #+BEGIN_SRC c++
+// nosyn line 29
 b := (1:2)
 #+END_SRC
 This expression will be converted to:
@@ -117,23 +117,23 @@ This expression will be converted to:
 #+END_SRC
 
 In this case there is an overload for =:== that supports this:
-#+caption: standard.assignment line 7
 #+BEGIN_SRC c++
+// standard.assignment line 7
 Nothing infix_:=_(IntArray* variable, IntArray value)
 #+END_SRC
 
 In the third expression the =:= is using a different overload in order to work within the square bracket overload.
 The square bracket has three possible overloads:
-#+caption: standard.arrays lines 26, 30, 34
 #+BEGIN_SRC c++
+// standard.arrays lines 26, 30, 34
 Int bracketop_[]_(IntArray array, Int index)
 IntArray bracketop_[]_(IntArray array, ArraySlicer sliceData)
 IntArrayAssignPrep bracketop_[]_(IntArray array, Int index)
 #+END_SRC
 
 There is also three overloads for the  =:= operator:
-#+caption: standard.arrays lines 38, 48, 52
 #+BEGIN_SRC c++
+// standard.arrays lines 38, 48, 52
 IntArray infix_:_(Int elemA, Int elemB)
 ArraySlicer infix_:_(Int start, Int end)
 IntArray infix_:_(IntArray array, Int newValue)
