@@ -23,6 +23,8 @@ First we should define exactly what language features we would like to create fo
 As this is NoSyn, there are absolutely no operators defined by default, so one of the most important operators to create first is the 
 assignment operator.
 For our purposes we will need a couple of operator overloads for this. The first is to assign array values to array variables:
+
+(Examples are marked with the module in which they are defined. Modules are defined based on the directory structure within the /src/ folder)
 #+BEGIN_SRC c++
 // standard.assignment line 7
 Nothing infix_:=_(IntArray* a, IntArray b)
