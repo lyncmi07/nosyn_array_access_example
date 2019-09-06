@@ -6,20 +6,20 @@
 #+LATEX: \usepackage{amsmath}
 #+LATEX_HEADER: \usepackage[margin=1.0in]{geometry}
 
-* Alpha 0.1 Array Access Exampe
+* Alpha 0.1 Array Access Example
 
-This array access exmaple is based on the example NoSyn program described in the [[todocument][Function Inference document]].
+This array access exmaple is based on the example NoSyn program described in the [[http://www.supermarinesoftware.com/nsc/FunctionInference.html][Function Inference document]].
 In the document a library of operator overloads was written in order to provide the user with a simple array creation operator
 as well as Go language style array slicing.
 
-Although not all of the language features used in that example have been implemented into the language yet (such as templates and
-closed aliases), event at this limited stage in development,. enough features are present to provide at least some of the functionality.
+Although not all of the language features used in that example have been implemented into the NoSyn language yet (such as templates and
+closed aliases), even at this limited stage in development, enough features are present to provide at least some of the functionality.
 
 As there are currently no template types in NoSyn, this example will be limited to just integer arrays. In replacement of closed aliases 
 this example will be using native aliases. Although they are not used for the same purpose, native aliases can be used in a similar
 fashion to closed aliases.
 
-First we should define exacttly what language features we would like to create for our language.
+First we should define exactly what language features we would like to create for our language.
 As this is NoSyn, there are absolutely no operators defined by default, so one of the most important operators to create first is the 
 assignment operator.
 For our purposes we will need a couple of operator overloads for this. The first is to assign array values to array variables:
@@ -30,11 +30,11 @@ Nothing infix_:=_(IntArray* a, IntArray b)
 This overload will allow us to assign a value array 'b' to array variable 'a' by infixing the two with an operator ':='.
 
 The parameter type being used in this overload is =IntArray=. This is not a standard type in NoSyn.
-It is actually a native alias fpr the D type =int[]=. This means that in NoSyn it will be recognised as the type =IntArray=, 
-but once converted into D it wil get replaced with the type =int[]=. This property of holding onto the alias name as the type name 
+It is actually a native alias for the D type =int[]=. This means that in NoSyn it will be recognised as the type =IntArray=, 
+but once converted into D it will get replaced with the type =int[]=. This property of holding onto the alias name as the type name 
 within NoSyn is why it can work as a good substitute to closed aliases.
 If a second alias =Foo= were also to point to the D type =int[]=, they would be treated as fundamentally different types in NoSyn 
-inspite of the identical underlying structure.
+inspite of their identical underlying structure.
 
 Another overload has been created for the =:== symbol:
 
@@ -54,8 +54,8 @@ writeln(a[0]);
 #+END_SRC
 
 The program will output the value of element 0. This is a good example of function inference in action. In one expression the 
-subexpression =a[0]= will return an integer value, but in the other it is returning an =IntArrayAssignPrep= which us a special data 
-structure the =:== assignment operator can use to find out at what position in an array it needs to put its righthand argumment.
+subexpression =a[0]= will return an integer value, but in the other it is returning an =IntArrayAssignPrep= which is a special data 
+structure the =:== assignment operator can use to find out at what position in an array it needs to put its righthand argument.
 
 This shows that the most basic array functionality has been implemented with relative ease. The main operator of interest in the program
 however is =:=.
@@ -67,11 +67,11 @@ b := (5:4:3:2:1)
 c := b[0:3]
 #+END_SRC
 
-In the first two expressions the =:= operator us being used as a short hand for creating arrays. In the last expression it is being 
+In the first two expressions the =:= operator is being used as a short hand for creating arrays. In the last expression it is being 
 used for array slicing.
 
 The parentheses on the first two expressions is not just to make things clearer, it is actually a requirement.
-Apart of the definition of variables, all statements in NoSyn are righthand expression statements.
+Apart from the definition of variables, all statements in NoSyn are righthand expression statements.
 
 The expression:
 #+BEGIN_SRC c++
@@ -82,7 +82,7 @@ The underlying expression in this example is actually:
 #+BEGIN_SRC c++
 :=(b, :(1,2))
 #+END_SRC
-=b= is just another righthand expression within then righthand function call to =:== which has the side effect of setting b to
+=b= is just another righthand expression within the righthand function call to =:==, which has the side effect of setting b to
 the array =(1:2)=.
 
 Because at a fundamental level in this language everything is in reality just a function call, some problems arise when attempting to 
@@ -110,7 +110,7 @@ This expression will be converted to:
 :=(b, :(1,2))
 #+END_SRC
 
-In this case there is an overload for =:== that supp[orts this:
+In this case there is an overload for =:== that supports this:
 #+BEGIN_SRC c++
 Nothing infix_:=_(IntArray* variable, IntArray value)
 #+END_SRC
@@ -126,7 +126,7 @@ IntArrayAssignPrep bracketop_[]_(IntArray array, Int index)
 There is also three overloads for the  =:= operator:
 #+BEGIN_SRC c++
 IntArray infix_:_(Int elemA, Int elemB)
-ArraySlicer infix_:_(Int start,. Int end)
+ArraySlicer infix_:_(Int start, Int end)
 IntArray infix_:_(IntArray array, Int newValue)
 #+END_SRC
 
@@ -141,4 +141,4 @@ If the programmer attempts to write the syntactically incorrect expression:
 c := b[0:3:5]
 #+END_SRC
 This will raise an error at compile time because the expression =0:3:5= is not capable of returning either the =Int= or =ArraySlicer=
-which square bracket overloads expect.
+values that the square bracket overloads expect.
