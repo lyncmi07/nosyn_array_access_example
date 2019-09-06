@@ -21,6 +21,8 @@ Int main() {
 
     writeln("Current contents");
     writeln(a);
+    writeln("Contents of first element");
+    writeln(a[0]);
 
     writeln("Assigning using ':' shorthand");
     IntArray b;
